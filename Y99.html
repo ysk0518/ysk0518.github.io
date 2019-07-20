@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <title>A-Frame</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script>
+
+  </head>
+  <body>
+    <script "text/javascript">
+      var _shot = function () {
+        var camera = document.getElementById('camera');
+        var rotation = camera.getAttribute('rotation');
+        var position = camera.getAttribute('position');
+        var velocity = new THREE.Vector3();
+        var speed = 25;
+        velocity.x = Math.sin(rotation.y * Math.PI / 180) * Math.cos(rotation.x * Math.PI / 180) * -speed;
+        velocity.y = Math.sin(rotation.x * Math.PI / 180) * speed;
+        velocity.z = Math.cos(rotation.y * Math.PI / 180) * Math.cos(rotation.x * Math.PI / 180) * -speed;
+        var bullet = document.createElement('a-entity');
+        bullet.setAttribute('id', 'bullet');
+        bullet.setAttribute('velocity', velocity);
+        bullet.setAttribute('position', position);
+        bullet.setAttribute('geometry', 'primitive: sphere; radius: 0.1');
+        bullet.setAttribute('dynamic-body', 'mass: 1');
+
+        var scene = document.querySelector('a-scene');
+        scene.appendChild(bullet);
+      };
+      document.addEventListener('click', _shot);
+    </script>
+
+    <a-scene stats antialias="true" physics="debug: false;">
+
+      <a-entity id="wall"
+        geometry="primitive: box; depth: 10; height: 0.1; width: 15" material="color: black"
+        static-body
+        position="0 0 7.5" rotation="90 0 0">
+      </a-entity>
+      <a-entity id="wall"
+        geometry="primitive: box; depth: 10; height: 0.1; width: 15" material="color: black"
+        static-body
+        position="0 0 -7.5" rotation="90 0 0">
+      </a-entity>
+      <a-entity id="wall"
+        geometry="primitive: box; depth: 10; height: 0.1; width: 15" material="color: black"
+        static-body
+        position="-7.5 0 0" rotation="90 90 0">
+      </a-entity>
+      <a-entity id="wall"
+        geometry="primitive: box; depth: 10; height: 0.1; width: 15" material="color: black"
+        static-body
+        position="7.5 0 0" rotation="90 90 0">
+      </a-entity>
+      <a-entity id="Stand"
+        geometry="primitive: box; depth: 1 ; height: 1; width: 1 " material="color: skyblue"
+        static-body
+        position="0 2 -6">
+      </a-entity>
+      <a-entity id="Stand"
+        geometry="primitive: box; depth: 1 ; height: 1; width: 1 " material="color: skyblue"
+        static-body
+        position="0 2 6">
+      </a-entity>
+      <a-entity id="Stand"
+        geometry="primitive: box; depth: 1 ; height: 1; width: 1 " material="color: skyblue"
+        static-body
+        position="6 2 0">
+      </a-entity>
+      <a-entity id="Stand"
+        geometry="primitive: box; depth: 1 ; height: 1; width: 1 " material="color: skyblue"
+        static-body
+        position="-6 2 0">
+      </a-entity>
+
+      <a-entity id="target"
+      geometry="primitive: sphere; radius: 0.8" material="color: #ffff00"
+      dynamic-body
+      position="0 5 -6">
+      </a-entity>
+      <a-entity id="target"
+      geometry="primitive: sphere; radius: 0.8" material="color: #ffff00"
+      dynamic-body
+      position="0 5 6">
+      </a-entity>
+      <a-entity id="target"
+      geometry="primitive: sphere; radius: 0.8" material="color: #ffff00"
+      dynamic-body
+      position="-6 5 0">
+      </a-entity>
+      <a-entity id="target"
+      geometry="primitive: sphere; radius: 0.8" material="color: #ffff00"
+      dynamic-body
+      position="6 5 0">
+      </a-entity>
+
+      <a-entity id="bullet"
+      geometry="primitive: sphere; radius: 0.1" material="color:green">
+      </a-entity>
+
+			<a-camera position="0 0 0" id="camera">
+		    <a-entity cursor="fuse: true; fuseTimeout: 1000"
+		                      position="0 0 -2" geometry="primitive: ring" scale="0.06 0.06 0.06" material="color: #3cb371; shader: flat">
+		      <a-animation begin="cursor-fusing" easing="ease-in" attribute="scale"
+		                              fill="none" from="0.06 0.06 0.06" to="0.001 0.001 0.001"></a-animation>
+		    </a-entity>
+		  </a-camera>
+			<a-sky color="black"></a-sky>
+
+      <a-box position="0 -50 0"  width="3" height="-100" depth="3" color="red" >
+        <a-animation begin="click" attribute="rotation" from="0 0 0" to="0 360 0" repeat="10" easing="linear"></a-animation>
+      </a-box>
+
+
+
+			<a-text position="-2.5 2 -4" value="Hello !!\n Welcome to \n yuge shosen!!" color="blue" scale="4 4 4">
+        <a-animation  attribute="rotation" from="200 0" to="20 360 0"  dur="4000" repeat="0.5" easing="ease">
+
+      </a-text>
+
+      <a-entity  particle-system="preset: rain; color: #24CAFF; particleCount: 500"></a-entity>
+
+    </a-scene>
+  </body>
+</html>
